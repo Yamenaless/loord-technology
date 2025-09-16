@@ -15,9 +15,7 @@ import {
   ChevronDown, 
   X, 
   ShoppingBag,
-  Star,
-  TrendingUp,
-  Zap
+  TrendingUp
 } from 'lucide-react'
 
 interface CartItem {
@@ -47,14 +45,63 @@ export default function ProductsPage() {
   // Calculate cart count
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0)
 
+  const handleAddToCart = useCallback((product: Product) => {
+    setCartItems(prev => {
+      const existingItem = prev.find(item => item.product.id === product.id)
+      
+      if (existingItem) {
+        return prev.map(item =>
+          item.product.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      } else {
+        return [...prev, { product, quantity: 1 }]
+      }
+    })
+
+    // Show feedback
+    setShowCartFeedback(true)
+    setTimeout(() => setShowCartFeedback(false), 2000)
+  }, [])
+
+  const handleRemoveFromCart = useCallback((productId: string) => {
+    setCartItems(prev => prev.filter(item => item.product.id !== productId))
+  }, [])
+
+  const handleUpdateQuantity = useCallback((productId: string, newQuantity: number) => {
+    if (newQuantity <= 0) {
+      handleRemoveFromCart(productId)
+      return
+    }
+
+    setCartItems(prev => 
+      prev.map(item =>
+        item.product.id === productId
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    )
+  }, [handleRemoveFromCart])
+
+  const handleClearCart = useCallback(() => {
+    setCartItems([])
+  }, [])
+
+  const toggleCart = useCallback(() => {
+    setIsCartOpen(prev => !prev)
+  }, [])
+
   useEffect(() => {
     setMounted(true)
     
     // Handle URL parameters for category filtering
-    const urlParams = new URLSearchParams(window.location.search)
-    const categoryParam = urlParams.get('category')
-    if (categoryParam && categories.includes(categoryParam)) {
-      setSelectedCategories([categoryParam])
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search)
+      const categoryParam = urlParams.get('category')
+      if (categoryParam && categories.includes(categoryParam)) {
+        setSelectedCategories([categoryParam])
+      }
     }
   }, [])
 
@@ -77,53 +124,6 @@ export default function ProductsPage() {
 
   const currentTheme = theme === 'system' ? systemTheme : theme
   const isDark = currentTheme === 'dark'
-
-  const handleAddToCart = useCallback((product: Product) => {
-    setCartItems(prev => {
-      const existingItem = prev.find(item => item.product.id === product.id)
-      
-      if (existingItem) {
-        return prev.map(item =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      } else {
-        return [...prev, { product, quantity: 1 }]
-      }
-    })
-
-    // Show feedback
-    setShowCartFeedback(true)
-    setTimeout(() => setShowCartFeedback(false), 2000)
-  }, [])
-
-  const handleRemoveFromCart = useCallback((productId: number) => {
-    setCartItems(prev => prev.filter(item => item.product.id !== productId))
-  }, [])
-
-  const handleUpdateQuantity = useCallback((productId: number, newQuantity: number) => {
-    if (newQuantity <= 0) {
-      handleRemoveFromCart(productId)
-      return
-    }
-
-    setCartItems(prev => 
-      prev.map(item =>
-        item.product.id === productId
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
-    )
-  }, [handleRemoveFromCart])
-
-  const handleClearCart = useCallback(() => {
-    setCartItems([])
-  }, [])
-
-  const toggleCart = useCallback(() => {
-    setIsCartOpen(prev => !prev)
-  }, [])
 
   // Filter and sort products
   const filteredProducts = products.filter(product => {
@@ -302,7 +302,7 @@ export default function ProductsPage() {
               <div className="relative">
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
+                  onChange={(e) => setSortBy(e.target.value as 'featured' | 'price-low' | 'price-high' | 'name' | 'rating')}
                   className="appearance-none bg-card border border-border rounded-lg px-4 py-2 pr-10 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="featured">Featured</option>
@@ -456,7 +456,7 @@ export default function ProductsPage() {
             </div>
             <h3 className="text-2xl font-bold text-foreground mb-4">No products found</h3>
             <p className="text-muted-foreground mb-8">
-              Try adjusting your search or filters to find what you're looking for.
+              Try adjusting your search or filters to find what you&apos;re looking for.
             </p>
             <button
               onClick={clearFilters}

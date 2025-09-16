@@ -12,8 +12,8 @@ interface CartDropdownProps {
   isOpen: boolean
   cartItems: CartItem[]
   onClose: () => void
-  onRemoveItem: (productId: number) => void
-  onUpdateQuantity: (productId: number, quantity: number) => void
+  onRemoveItem: (productId: string) => void
+  onUpdateQuantity: (productId: string, quantity: number) => void
   onClearCart: () => void
 }
 

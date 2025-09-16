@@ -56,8 +56,8 @@ export default function Home() {
       handleRemoveFromCart(productId)
       return
     }
-    
-    setCartItems(prev =>
+
+    setCartItems(prev => 
       prev.map(item =>
         item.product.id === productId
           ? { ...item, quantity: newQuantity }

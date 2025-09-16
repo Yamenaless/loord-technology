@@ -101,7 +101,11 @@ export const Categories = () => {
             {featuredCategories.map((category, index) => (
               <button
                 key={category}
-                onClick={() => window.location.href = `/products?category=${encodeURIComponent(category)}`}
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.location.href = `/products?category=${encodeURIComponent(category)}`
+                  }
+                }}
                 className="group relative bg-card border border-border rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary overflow-hidden"
                 tabIndex={0}
                 aria-label={`Browse ${category} products`}
@@ -148,7 +152,11 @@ export const Categories = () => {
             {otherCategories.map((category, index) => (
               <button
                 key={category}
-                onClick={() => window.location.href = `/products?category=${encodeURIComponent(category)}`}
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    window.location.href = `/products?category=${encodeURIComponent(category)}`
+                  }
+                }}
                 className="group bg-card border border-border rounded-xl p-6 text-center hover:shadow-lg transition-all duration-200 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 tabIndex={0}
                 aria-label={`Browse ${category} products`}

@@ -25,7 +25,9 @@ export const Hero = () => {
   const isDark = currentTheme === 'dark'
 
   const handleShopNow = () => {
-    window.location.href = '/products'
+    if (typeof window !== 'undefined') {
+      window.location.href = '/products'
+    }
   }
 
   return (

@@ -25,7 +25,7 @@ export default function ProductsError({
             Products Unavailable
           </h1>
           <p className="text-muted-foreground mb-8">
-            We're having trouble loading our products. Please try again or return to the homepage.
+            We&apos;re having trouble loading our products. Please try again or return to the homepage.
           </p>
         </div>
 
