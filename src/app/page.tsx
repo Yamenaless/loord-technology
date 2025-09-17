@@ -11,6 +11,9 @@ import { Footer } from '@/components/footer'
 import { CartDropdown } from '@/components/cart-dropdown'
 import { Product } from '@/data/products'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 interface CartItem {
   product: Product
   quantity: number

@@ -4,6 +4,9 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { LoadingProvider } from '@/components/simple-loading'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {

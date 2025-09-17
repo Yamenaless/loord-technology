@@ -18,6 +18,9 @@ import {
   TrendingUp
 } from 'lucide-react'
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
 interface CartItem {
   product: Product
   quantity: number
