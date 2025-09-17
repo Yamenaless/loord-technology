@@ -2,6 +2,7 @@
 
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
+import { SimpleLink } from './simple-link'
 import { ArrowRight, Play, Star, Zap, Shield, Truck } from 'lucide-react'
 
 export const Hero = () => {
@@ -24,11 +25,6 @@ export const Hero = () => {
   const currentTheme = theme === 'system' ? systemTheme : theme
   const isDark = currentTheme === 'dark'
 
-  const handleShopNow = () => {
-    if (typeof window !== 'undefined') {
-      window.location.href = '/products'
-    }
-  }
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-background via-background to-muted/30">
@@ -92,15 +88,13 @@ export const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={handleShopNow}
+              <SimpleLink
+                href="/products"
                 className="group inline-flex items-center justify-center space-x-2 bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
-                tabIndex={0}
-                aria-label="Shop now for gaming and tech gear"
               >
                 <span>Shop Now</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </SimpleLink>
               
               <button className="group inline-flex items-center justify-center space-x-2 border border-border bg-background text-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-accent transition-all duration-200">
                 <Play className="w-5 h-5" />

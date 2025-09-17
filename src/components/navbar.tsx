@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Menu, X, ShoppingCart } from 'lucide-react'
+import { SimpleLink } from './simple-link'
 import { ThemeToggle } from './theme-toggle'
 
 interface NavbarProps {
@@ -29,24 +30,34 @@ export const Navbar = ({ cartCount, onCartClick }: NavbarProps) => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-foreground">
+            <SimpleLink href="/" className="text-2xl font-bold text-foreground hover:text-primary transition-colors">
               Loord Technology
-            </h1>
+            </SimpleLink>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-                  tabIndex={0}
-                  aria-label={`Navigate to ${link.name}`}
-                >
-                  {link.name}
-                </a>
+                link.href.startsWith('/') ? (
+                  <SimpleLink
+                    key={link.name}
+                    href={link.href}
+                    className="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                  >
+                    {link.name}
+                  </SimpleLink>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="text-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    tabIndex={0}
+                    aria-label={`Navigate to ${link.name}`}
+                  >
+                    {link.name}
+                  </a>
+                )
               ))}
             </div>
           </div>
@@ -114,16 +125,27 @@ export const Navbar = ({ cartCount, onCartClick }: NavbarProps) => {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-background border-t border-border">
             {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-foreground hover:text-primary hover:bg-accent block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
-                tabIndex={0}
-                aria-label={`Navigate to ${link.name}`}
-              >
-                {link.name}
-              </a>
+              link.href.startsWith('/') ? (
+                <SimpleLink
+                  key={link.name}
+                  href={link.href}
+                  className="text-foreground hover:text-primary hover:bg-accent block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.name}
+                </SimpleLink>
+              ) : (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-foreground hover:text-primary hover:bg-accent block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                  onClick={() => setIsMenuOpen(false)}
+                  tabIndex={0}
+                  aria-label={`Navigate to ${link.name}`}
+                >
+                  {link.name}
+                </a>
+              )
             ))}
           </div>
         </div>

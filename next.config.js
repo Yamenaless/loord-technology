@@ -4,8 +4,7 @@ const nextConfig = {
     esmExternals: 'loose'
   },
   transpilePackages: ['lucide-react'],
-  staticPageGenerationTimeout: 120,
-  output: 'standalone'
+  staticPageGenerationTimeout: 120
 }
 
 module.exports = nextConfig
